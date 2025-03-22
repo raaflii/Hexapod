@@ -49,6 +49,15 @@ void kakiKanan(float x, float y, float z, float &servoCoxa, float &servoFemur, f
   servoTibia = constrainAngle(90.0 - t);
 }
 
+void kakiKiri(float x, float y, float z, float &servoCoxa, float &servoFemur, float &servoTibia) {
+  float c, f, t;
+  inverseKinematic(x, y, z, c, f, t);
+
+  servoCoxa  = constrainAngle(270.0 - c);
+  servoFemur = constrainAngle(90.0 - f);
+  servoTibia = constrainAngle(90.0 + t);
+}
+
 int angleToPulse(float angle) {
   return SERVOMIN + (angle / 180.0) * (SERVOMAX - SERVOMIN);
 }
