@@ -33,7 +33,7 @@ void inverseKinematic(float x, float y, float z, float &sudutCoxa, float &sudutF
   sudutTibia = degrees(acos(ratio2)) - 90.0;
 }
 
-void kakiKanan(float x, float y, float z, float &servoCoxa, float &servoFemur, float &servoTibia) {
+void kakiKiri(float x, float y, float z, float &servoCoxa, float &servoFemur, float &servoTibia) {
   float c, f, t;
   inverseKinematic(x, y, z, c, f, t);
 
@@ -70,7 +70,7 @@ void loop() {
     Serial.println(z);
     
     float servoCoxa, servoFemur, servoTibia;
-    kakiKanan(x, y, z, servoCoxa, servoFemur, servoTibia);
+    kakiKiri(x, y, z, servoCoxa, servoFemur, servoTibia);
     
     Serial.print("Servo Coxa: ");
     Serial.println(servoCoxa);
