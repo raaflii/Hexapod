@@ -28,59 +28,63 @@
   <div id="joystick-right"></div>
 
   <script>
+    let leftData = { angle: 0, force: 0 };
+    let rightData = { angle: 0, force: 0 };
+    let leftActive = false;
+    let rightActive = false;
+  
     const socket = new WebSocket('ws://' + '192.168.100.91' + '/ws');
-
+  
     const sendJoystickData = () => {
       const data = {
         left: leftActive ? leftData : null,
         right: rightActive ? rightData : null
       };
-    socket.send(JSON.stringify(data));
+      socket.send(JSON.stringify(data));
     };
-
-    setInterval(sendJoystickData, 100);
-
-    socket.onopen = () => {
-      console.log('WebSocket connected to ESP32');
-    };
-
-    socket.onerror = (error) => {
-      console.error('WebSocket Error:', error);
-    };
-
+  
+    setInterval(sendJoystickData, 100); 
+  
     const left = nipplejs.create({
       zone: document.getElementById('joystick-left'),
       mode: 'static',
       position: { left: '50%', top: '50%' },
       color: 'red'
     });
-
+  
     const right = nipplejs.create({
       zone: document.getElementById('joystick-right'),
       mode: 'static',
       position: { left: '50%', top: '50%' },
       color: 'blue'
     });
-
-    left.on('move', (event, data) => {
+  
+    left.on('move', (evt, data) => {
       if (data) {
-        const angle = data.angle.degree.toFixed(1);
-        const force = data.force.toFixed(2);
-        const msg = JSON.stringify({ joystick: 'left', angle, force });
-        console.log('Left:', msg);
-        socket.send(msg);
+        leftData.angle = data.angle.degree;
+        leftData.force = data.force;
+        leftActive = true;
       }
     });
-
-    right.on('move', (event, data) => {
+  
+    right.on('move', (evt, data) => {
       if (data) {
-        const angle = data.angle.degree.toFixed(1);
-        const force = data.force.toFixed(2);
-        const msg = JSON.stringify({ joystick: 'right', angle, force });
-        console.log('Right:', msg);
-        socket.send(msg);
+        rightData.angle = data.angle.degree;
+        rightData.force = data.force;
+        rightActive = true;
       }
+    });
+  
+    left.on('end', () => {
+      leftActive = false;
+      leftData = { angle: 0, force: 0 };
+    });
+  
+    right.on('end', () => {
+      rightActive = false;
+      rightData = { angle: 0, force: 0 };
     });
   </script>
+  
 </body>
 </html>
