@@ -22,12 +22,6 @@ void onWebSocketEvent(AsyncWebSocket *server,
       String msg = (char*)data;
       Serial.print("Data dari WebSocket: ");
       Serial.println(msg);
-
-      if (msg.indexOf("left") != -1) {
-        Serial.println("Gerakan joystick kiri");
-      } else if (msg.indexOf("right") != -1) {
-        Serial.println("Gerakan joystick kanan");
-      }
     }
   }
 }
