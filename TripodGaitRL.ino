@@ -25,7 +25,7 @@ float P1[3] = {80, -30, -30};
 float P2[3] = {80, 30, -30};  
 float P3[3] = {80, 50, -50};
 
-int steps = 20;
+int steps = 30;
 
 float constrainAngle(float val) {
   return constrain(val, 0, 180);
@@ -79,42 +79,6 @@ int angleToPulse(float angle) {
   return SERVOMIN + (angle / 180.0) * (SERVOMAX - SERVOMIN);
 }
 
-void stancePhase(float &y, float &servoCoxa, float &servoFemur, float &servoTibia) {
-  float stanceY = P0[1] - P3[1];
-  float stance[3] = {80, stanceY, -50};
-  float stepSize = stanceY / steps;
-
-  kakiKanan(stance[0], y, stance[2], servoCoxa, servoFemur, servoTibia);
-  y += stepSize;
-}
-
-void swingPhase(float t, float &servoCoxa, float &servoFemur, float &servoTibia) {
-  float x, y, z;
-  bezier(t, P0, P1, P2, P3, x, y, z);
-
-  kakiKanan(x, y, z, servoCoxa, servoFemur, servoTibia);
-}
-
-void doMovement(Leg &leg, float t, float y) { 
-  float servoCoxa, servoFemur, servoTibia;
-
-  if (leg.state == 0) {
-    stancePhase(y, servoCoxa, servoFemur, servoTibia);
-  } else {
-    swingPhase(t, servoCoxa, servoFemur, servoTibia);
-  }
-
-  int pulseCoxa  = angleToPulse(servoCoxa);
-  int pulseFemur = angleToPulse(servoFemur);
-  int pulseTibia = angleToPulse(servoTibia);
-
-  pwm.setPWM(leg.ch[0], 0, pulseCoxa);
-  pwm.setPWM(leg.ch[1], 0, pulseFemur);
-  pwm.setPWM(leg.ch[2], 0, pulseTibia);
-
-  leg.state = !leg.state;
-}
-
 void setup() {
   Serial.begin(115200);
   Serial.println("Tripod Gait Right Leg");
@@ -122,9 +86,12 @@ void setup() {
   pwm.setPWMFreq(50);
   delay(10);
 
-  int pulseCoxa  = angleToPulse(80);
-  int pulseFemur = angleToPulse(0);
-  int pulseTibia = angleToPulse(-50);
+  float servoCoxa, servoFemur, servoTibia;
+  kakiKanan(80, 0, -50, servoCoxa, servoFemur, servoTibia);
+
+  int pulseCoxa  = angleToPulse(servoCoxa);
+  int pulseFemur = angleToPulse(servoFemur);
+  int pulseTibia = angleToPulse(servoTibia);
 
   pwm.setPWM(R1.ch[0], 0, pulseCoxa);
   pwm.setPWM(R1.ch[1], 0, pulseFemur);
@@ -141,14 +108,47 @@ void setup() {
   delay(3000);
 }
 
-void loop() {
-  float y = P3[1];
+float y_R1, y_R2, y_R3;
 
-  for (int i = 0; i <= steps; i++) {
-    float t = (float)i / steps;
-    doMovement(R1, t, y);
-    doMovement(R2, t, y);
-    doMovement(R3, t, y);
-    delay(30);
+void processLeg(Leg &leg, float t, float &y) {
+  float servoCoxa, servoFemur, servoTibia;
+  
+  if(leg.state) {
+    float x = P0[0];
+    float z = P0[2];
+    float stepSize = (P0[1] - P3[1])/steps;
+    
+    kakiKanan(x, y, z, servoCoxa, servoFemur, servoTibia);
+    y += stepSize;
+  } else { 
+    float x, y_swing, z;
+    bezier(t, P0, P1, P2, P3, x, y_swing, z);
+    kakiKanan(x, y_swing, z, servoCoxa, servoFemur, servoTibia);
+  }
+  
+  pwm.setPWM(leg.ch[0], 0, angleToPulse(servoCoxa));
+  pwm.setPWM(leg.ch[1], 0, angleToPulse(servoFemur));
+  pwm.setPWM(leg.ch[2], 0, angleToPulse(servoTibia));
+}
+
+void loop() {
+  while(true) {
+    y_R1 = R1.state ? P3[1] : P0[1];
+    y_R2 = R2.state ? P3[1] : P0[1];
+    y_R3 = R3.state ? P3[1] : P0[1];
+
+    for(int i=0; i<=steps; i++) {
+      float t = (float)i/steps;
+      
+      processLeg(R1, t, y_R1);
+      processLeg(R2, t, y_R2);
+      processLeg(R3, t, y_R3);
+      
+      delay(10);
+    }
+
+    R1.state = !R1.state;
+    R2.state = !R2.state;
+    R3.state = !R3.state;
   }
 }
