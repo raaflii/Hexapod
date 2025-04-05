@@ -61,7 +61,7 @@
   
     left.on('move', (evt, data) => {
       if (data) {
-        leftData.angle = data.angle.degree.toFixed(1);
+        leftData.angle = ((data.angle.degree + 270) % 360).toFixed(1);
         leftData.force = data.force.toFixed(2);
         leftActive = true;
       }
@@ -69,7 +69,7 @@
   
     right.on('move', (evt, data) => {
       if (data) {
-        rightData.angle = data.angle.degree.toFixed(1);
+        rightData.angle = ((data.angle.degree + 270) % 360).toFixed(1);
         rightData.force = data.force.toFixed(2);
         rightActive = true;
       }
