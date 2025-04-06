@@ -110,7 +110,7 @@ void setup() {
 
 float y_R1, y_R2, y_R3;
 
-void processLeg(Leg &leg, float t, float &y) {
+void doLeg(Leg &leg, float t, float &y) {
   float servoCoxa, servoFemur, servoTibia;
   
   if(leg.state) {
@@ -140,9 +140,9 @@ void loop() {
     for(int i=0; i<=steps; i++) {
       float t = (float)i/steps;
       
-      processLeg(R1, t, y_R1);
-      processLeg(R2, t, y_R2);
-      processLeg(R3, t, y_R3);
+      doLeg(R1, t, y_R1);
+      doLeg(R2, t, y_R2);
+      doLeg(R3, t, y_R3);
       
       delay(10);
     }
