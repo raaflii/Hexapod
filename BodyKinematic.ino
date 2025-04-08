@@ -10,9 +10,9 @@ struct Leg {
   float offset_z;
 };
 
-Leg R1 = {{0, 1, 2}, true, 63.0, 83.5, 20.0};
-Leg R2 = {{4, 5, 6}, false, 81.5, 0.0, 20.0};
-Leg R3 = {{8, 9, 10}, true, 63.0, -83.5, 20.0};
+Leg R1 = {{0, 1, 2}, true, 63.0, 83.5, -20.0};
+Leg R2 = {{4, 5, 6}, false, 81.5, 0.0, -20.0};
+Leg R3 = {{8, 9, 10}, true, 63.0, -83.5, -20.0};
 
 float alpha = 0; 
 float beta = 0;   
@@ -121,26 +121,28 @@ int angleToPulse(float angle) {
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("Tripod Gait Right Leg");
+  Serial.println("Testing Body Kinematic");
   pwm.begin();
   pwm.setPWMFreq(50);
   delay(10);
 
   float servoCoxa, servoFemur, servoTibia;
-  kakiKanan(80, 0, -50, servoCoxa, servoFemur, servoTibia);
 
   int pulseCoxa  = angleToPulse(servoCoxa);
   int pulseFemur = angleToPulse(servoFemur);
   int pulseTibia = angleToPulse(servoTibia);
 
+  kakiKanan(R1, 80, 0, -50, servoCoxa, servoFemur, servoTibia);
   pwm.setPWM(R1.ch[0], 0, pulseCoxa);
   pwm.setPWM(R1.ch[1], 0, pulseFemur);
   pwm.setPWM(R1.ch[2], 0, pulseTibia);
 
+  kakiKanan(R2, 80, 0, -50, servoCoxa, servoFemur, servoTibia);
   pwm.setPWM(R2.ch[0], 0, pulseCoxa);
   pwm.setPWM(R2.ch[1], 0, pulseFemur);
   pwm.setPWM(R2.ch[2], 0, pulseTibia);
 
+  kakiKanan(R3, 80, 0, -50, servoCoxa, servoFemur, servoTibia);
   pwm.setPWM(R3.ch[0], 0, pulseCoxa);
   pwm.setPWM(R3.ch[1], 0, pulseFemur);
   pwm.setPWM(R3.ch[2], 0, pulseTibia);
