@@ -39,8 +39,6 @@ float P3_move[3] = {80, 50, -50};
 
 int steps = 30;
 
-const float pi = 3.14159267;
-
 void bodyKinematic(Leg &leg, float &x, float &y, float &z) {
   float x_global = x + leg.offset_x;
   float y_global = y + leg.offset_y;
