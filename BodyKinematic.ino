@@ -128,21 +128,32 @@ void setup() {
 
   float servoCoxa, servoFemur, servoTibia;
 
+  kakiKanan(R1, 80, 0, -50, servoCoxa, servoFemur, servoTibia);
+
   int pulseCoxa  = angleToPulse(servoCoxa);
   int pulseFemur = angleToPulse(servoFemur);
   int pulseTibia = angleToPulse(servoTibia);
 
-  kakiKanan(R1, 80, 0, -50, servoCoxa, servoFemur, servoTibia);
   pwm.setPWM(R1.ch[0], 0, pulseCoxa);
   pwm.setPWM(R1.ch[1], 0, pulseFemur);
   pwm.setPWM(R1.ch[2], 0, pulseTibia);
 
   kakiKanan(R2, 80, 0, -50, servoCoxa, servoFemur, servoTibia);
+
+  int pulseCoxa  = angleToPulse(servoCoxa);
+  int pulseFemur = angleToPulse(servoFemur);
+  int pulseTibia = angleToPulse(servoTibia);
+
   pwm.setPWM(R2.ch[0], 0, pulseCoxa);
   pwm.setPWM(R2.ch[1], 0, pulseFemur);
   pwm.setPWM(R2.ch[2], 0, pulseTibia);
 
   kakiKanan(R3, 80, 0, -50, servoCoxa, servoFemur, servoTibia);
+
+  int pulseCoxa  = angleToPulse(servoCoxa);
+  int pulseFemur = angleToPulse(servoFemur);
+  int pulseTibia = angleToPulse(servoTibia);
+  
   pwm.setPWM(R3.ch[0], 0, pulseCoxa);
   pwm.setPWM(R3.ch[1], 0, pulseFemur);
   pwm.setPWM(R3.ch[2], 0, pulseTibia);
