@@ -47,6 +47,7 @@ void inverseKinematic(Leg &leg, float x, float y, float z, float &sudutCoxa, flo
 
 void kakiKiri(Leg &leg, float x, float y, float z, float &servoCoxa, float &servoFemur, float &servoTibia) {
   float c, f, t;
+
   inverseKinematic(leg, x, y, z, c, f, t);
 
   c = fmod(c, 360);  
@@ -80,14 +81,6 @@ void loop() {
     
     while (Serial.available() && Serial.read() != '\n') { }
 
-    Serial.print("x_local=");
-    Serial.print(x);
-    Serial.print(", y_local=");
-    Serial.print(y);
-    Serial.print(", z_local=");
-    Serial.println(z);
-
-    
     float servoCoxa, servoFemur, servoTibia;
 
     Leg legs[3] = {L1, L2, L3};
@@ -107,6 +100,15 @@ void loop() {
     x -= leg.offset_x;
     y -= leg.offset_y;
     z -= leg.offset_z;
+
+    Serial.print("x_local ="); Serial.println(x);
+    Serial.print("x_offset"); Serial.println(leg.offset_x);
+
+    Serial.print("y_local ="); Serial.println(y);
+    Serial.print("y_offset"); Serial.println(leg.offset_y);
+
+    Serial.print("z_local ="); Serial.println(z);
+    Serial.print("z_offset"); Serial.println(leg.offset_z);
 
     kakiKiri(leg, x, y, z, servoCoxa, servoFemur, servoTibia);
     
