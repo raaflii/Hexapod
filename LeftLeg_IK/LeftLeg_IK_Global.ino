@@ -65,7 +65,7 @@ int angleToPulse(float angle) {
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("Masukkan input global x, y, z (misal: 100 30 0):");
+  Serial.println("Masukkan input global kaki, x, y, z (misal: L1 100 30 0):");
   pwm.begin();
   pwm.setPWMFreq(50);
   delay(10);
@@ -80,12 +80,13 @@ void loop() {
     
     while (Serial.available() && Serial.read() != '\n') { }
 
-    Serial.print("Input: x_local=");
+    Serial.print("x_local=");
     Serial.print(x);
     Serial.print(", y_local=");
     Serial.print(y);
     Serial.print(", z_local=");
     Serial.println(z);
+
     
     float servoCoxa, servoFemur, servoTibia;
 
@@ -99,9 +100,13 @@ void loop() {
     } else if (Strleg == "L3") {
         leg = legs[2];
     } else { 
-        Seraial.println("Ga valid bg");
+        Serial.println("Ga valid bg");
         return;
     }
+
+    x -= leg.offset_x;
+    y -= leg.offset_y;
+    z -= leg.offset_z;
 
     kakiKiri(leg, x, y, z, servoCoxa, servoFemur, servoTibia);
     
