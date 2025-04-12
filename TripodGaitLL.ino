@@ -20,10 +20,10 @@ const float coxa_len  = 43.0;
 const float femur_len = 60.0;
 const float tibia_len = 104.0;
 
-float P0[3] = {-80, -50, -50};  
-float P1[3] = {-80, -30, -30};  
-float P2[3] = {-80, 30, -30};  
-float P3[3] = {-80, 50, -50};
+float P0[3] = {-110, -50, -50};  
+float P1[3] = {-110, -30, -30};  
+float P2[3] = {-110, 30, -30};  
+float P3[3] = {-110, 50, -50};
 
 int steps = 30;
 
@@ -92,7 +92,7 @@ void setup() {
   delay(10);
 
   float servoCoxa, servoFemur, servoTibia;
-  kakiKanan(80, 0, -50, servoCoxa, servoFemur, servoTibia);
+  kakiKiri(-110, 0, -50, servoCoxa, servoFemur, servoTibia);
 
   int pulseCoxa  = angleToPulse(servoCoxa);
   int pulseFemur = angleToPulse(servoFemur);
@@ -123,12 +123,12 @@ void doLeg(Leg &leg, float t, float &y) {
     float z = P0[2];
     float stepSize = (P0[1] - P3[1])/steps;
     
-    kakiKanan(x, y, z, servoCoxa, servoFemur, servoTibia);
+    kakiKiri(x, y, z, servoCoxa, servoFemur, servoTibia);
     y += stepSize;
   } else { 
     float x, y_swing, z;
     bezier(t, P0, P1, P2, P3, x, y_swing, z);
-    kakiKanan(x, y_swing, z, servoCoxa, servoFemur, servoTibia);
+    kakiKiri(x, y_swing, z, servoCoxa, servoFemur, servoTibia);
   }
   
   pwm.setPWM(leg.ch[0], 0, angleToPulse(servoCoxa));
