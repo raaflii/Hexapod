@@ -11,7 +11,7 @@ const float femur_len = 60.0;
 const float tibia_len = 104.0;
 
 float constrainAngle(float val) {
-  return constrain(val, 0, 180);
+  return constrain(val, 20, 180);
 }
 
 void inverseKinematic(float x, float y, float z, float &sudutCoxa, float &sudutFemur, float &sudutTibia) {
@@ -37,7 +37,12 @@ void kakiKiri(float x, float y, float z, float &servoCoxa, float &servoFemur, fl
   float c, f, t;
   inverseKinematic(x, y, z, c, f, t);
 
-  servoCoxa  = constrainAngle(270.0 - c);
+  c = fmod(c, 360);  
+  if (c < 0) {
+    c += 360;        
+  }
+
+  servoCoxa = constrainAngle(270.0 - c); 
   servoFemur = constrainAngle(90.0 - f);
   servoTibia = constrainAngle(90.0 + t);
 }
@@ -83,9 +88,9 @@ void loop() {
     int pulseFemur = angleToPulse(servoFemur);
     int pulseTibia = angleToPulse(servoTibia);
     
-    pwm.setPWM(8, 0, pulseCoxa);
-    pwm.setPWM(9, 0, pulseFemur);
-    pwm.setPWM(10, 0, pulseTibia);
+    pwm.setPWM(6, 0, pulseCoxa);
+    pwm.setPWM(7, 0, pulseFemur);
+    pwm.setPWM(8, 0, pulseTibia);
   }
   delay(10);
 }
