@@ -88,9 +88,19 @@ void loop() {
     int pulseFemur = angleToPulse(servoFemur);
     int pulseTibia = angleToPulse(servoTibia);
     
-    pwm.setPWM(6, 0, pulseCoxa);
-    pwm.setPWM(7, 0, pulseFemur);
-    pwm.setPWM(8, 0, pulseTibia);
+    pwm.setPWM(0, 0, pulseCoxa);
+    pwm.setPWM(1, 0, pulseFemur);
+    pwm.setPWM(2, 0, pulseTibia);
+    delay(500);
+
+    pwm.setPWM(4, 0, pulseCoxa);
+    pwm.setPWM(5, 0, pulseFemur);
+    pwm.setPWM(6, 0, pulseTibia);
+    delay(500);
+
+    pwm.setPWM(8, 0, pulseCoxa);
+    pwm.setPWM(9, 0, pulseFemur);
+    pwm.setPWM(10, 0, pulseTibia);
   }
   delay(10);
 }
