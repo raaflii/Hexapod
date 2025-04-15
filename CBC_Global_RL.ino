@@ -70,7 +70,7 @@ void inverseKinematic(Leg &leg, float x, float y, float z, float &sudutCoxa, flo
     Serial.print("y_rot: "); Serial.println(y_rot);
 
     float c, f, t;
-    inverseKinematic(leg, x, y, z, c, f, t);
+    inverseKinematic(leg, x_rot, y_rot, z, c, f, t);
     
     servoCoxa  = constrainAngle(90.0 - c);
     servoFemur = constrainAngle(90.0 + f);
