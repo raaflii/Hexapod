@@ -63,6 +63,12 @@ void inverseKinematic(Leg &leg, float x, float y, float z, float &sudutCoxa, flo
   }
 
   void kakiKanan(Leg &leg, float x, float y, float z, float &servoCoxa, float &servoFemur, float &servoTibia) {
+    float x_rot, y_rot;
+    rotateZ(x, y, leg.rot_z, x_rot, y_rot);
+
+    Serial.print("x_rot: "); Serial.println(x_rot);
+    Serial.print("y_rot: "); Serial.println(y_rot);
+
     float c, f, t;
     inverseKinematic(leg, x, y, z, c, f, t);
     
