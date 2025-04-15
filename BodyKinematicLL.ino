@@ -124,15 +124,15 @@ void setup() {
 
   float servoCoxa, servoFemur, servoTibia;
 
-//   kakiKiri(L1, -110, 0, -50, servoCoxa, servoFemur, servoTibia);
+  kakiKiri(L1, -110, 0, -50, servoCoxa, servoFemur, servoTibia);
 
-//   int pulseCoxa  = angleToPulse(servoCoxa);
-//   int pulseFemur = angleToPulse(servoFemur);
-//   int pulseTibia = angleToPulse(servoTibia);
+  int pulseCoxa  = angleToPulse(servoCoxa);
+  int pulseFemur = angleToPulse(servoFemur);
+  int pulseTibia = angleToPulse(servoTibia);
 
-//   pwm.setPWM(L1.ch[0], 0, pulseCoxa);
-//   pwm.setPWM(L1.ch[1], 0, pulseFemur);
-//   pwm.setPWM(L1.ch[2], 0, pulseTibia);
+  pwm.setPWM(L1.ch[0], 0, pulseCoxa);
+  pwm.setPWM(L1.ch[1], 0, pulseFemur);
+  pwm.setPWM(L1.ch[2], 0, pulseTibia);
 
 //   kakiKiri(L2, -110, 0, -50, servoCoxa, servoFemur, servoTibia);
 
@@ -144,15 +144,15 @@ void setup() {
 //   pwm.setPWM(L2.ch[1], 0, pulseFemur);
 //   pwm.setPWM(L2.ch[2], 0, pulseTibia);
 
-  kakiKiri(L3, -110, 0, -50, servoCoxa, servoFemur, servoTibia);
+//   kakiKiri(L3, -110, 0, -50, servoCoxa, servoFemur, servoTibia);
 
-  int pulseCoxa  = angleToPulse(servoCoxa);
-  int pulseFemur = angleToPulse(servoFemur);
-  int pulseTibia = angleToPulse(servoTibia);
+//   int pulseCoxa  = angleToPulse(servoCoxa);
+//   int pulseFemur = angleToPulse(servoFemur);
+//   int pulseTibia = angleToPulse(servoTibia);
   
-  pwm.setPWM(L3.ch[0], 0, pulseCoxa);
-  pwm.setPWM(L3.ch[1], 0, pulseFemur);
-  pwm.setPWM(L3.ch[2], 0, pulseTibia);
+//   pwm.setPWM(L3.ch[0], 0, pulseCoxa);
+//   pwm.setPWM(L3.ch[1], 0, pulseFemur);
+//   pwm.setPWM(L3.ch[2], 0, pulseTibia);
 
   delay(3000);
 }
@@ -189,9 +189,9 @@ void loop() {
     for(int i=0; i<=steps; i++) {
       float t = (float)i/steps;
       
-    //   doLeg(L1, t, y_L1);
-    //   doLeg(L2, t, y_L2);
-      doLeg(L3, t, y_L3);
+      doLeg(L1, t, y_L1);
+      // doLeg(L2, t, y_L2);
+      // doLeg(L3, t, y_L3);
       
       delay(10);
     }
