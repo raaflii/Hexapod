@@ -118,7 +118,7 @@ void doLeg(Leg &leg, float t, float &y) {
 
 
       if (leg.pwm == &pwm_ll) {
-        kakikiri(leg, x_local, y_local, z_local, servoCoxa, servoFemur, servoTibia);
+        kakiKiri(leg, x_local, y_local, z_local, servoCoxa, servoFemur, servoTibia);
       } else {
         kakiKanan(leg, x_local, y_local, z_local, servoCoxa, servoFemur, servoTibia);
       }
@@ -132,7 +132,7 @@ void doLeg(Leg &leg, float t, float &y) {
       float z_local = z_global - leg.offset_z;
       
       if (leg.pwm == &pwm_ll) {
-        kakikiri(leg, x_local, y_local, z_local, servoCoxa, servoFemur, servoTibia);
+        kakiKiri(leg, x_local, y_local, z_local, servoCoxa, servoFemur, servoTibia);
       } else {
         kakiKanan(leg, x_local, y_local, z_local, servoCoxa, servoFemur, servoTibia);
       }
