@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hexapod Remote Control</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/nipplejs/0.7.3/nipplejs.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      background: #1e1e1e;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 100vh;
+      color: white;
+      font-family: sans-serif;
+    }
+    #joystick-left, #joystick-right {
+      width: 150px;
+      height: 150px;
+      background: #333;
+      border-radius: 50%;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <div id="joystick-left"></div>
+  <div id="joystick-right"></div>
+
+  <script>
+    let leftData = { angle: 0, force: 0 };
+    let rightData = { angle: 0, force: 0 };
+    let leftActive = false;
+    let rightActive = false;
+  
+    const socket = new WebSocket('ws://' + '192.168.100.91' + '/ws');
+  
+    const sendJoystickData = () => {
+      const data = {
+        left: leftActive ? leftData : null,
+        right: rightActive ? rightData : null
+      };
+      socket.send(JSON.stringify(data));
+    };
+  
+    setInterval(sendJoystickData, 100); 
+  
+    const left = nipplejs.create({
+      zone: document.getElementById('joystick-left'),
+      mode: 'static',
+      position: { left: '50%', top: '50%' },
+      color: 'red'
+    });
+  
+    const right = nipplejs.create({
+      zone: document.getElementById('joystick-right'),
+      mode: 'static',
+      position: { left: '50%', top: '50%' },
+      color: 'blue'
+    });
+  
+    left.on('move', (evt, data) => {
+      if (data) {
+        leftData.angle = ((data.angle.degree + 270) % 360).toFixed(1);
+        leftData.force = data.force.toFixed(2);
+        leftActive = true;
+      }
+    });
+  
+    right.on('move', (evt, data) => {
+      if (data) {
+        rightData.angle = ((data.angle.degree + 270) % 360).toFixed(1);
+        rightData.force = data.force.toFixed(2);
+        rightActive = true;
+      }
+    });
+  
+    left.on('end', () => {
+      leftActive = false;
+      leftData = { angle: 0, force: 0 };
+    });
+  
+    right.on('end', () => {
+      rightActive = false;
+      rightData = { angle: 0, force: 0 };
+    });
+  </script>
+  
+</body>
+</html>
