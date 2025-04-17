@@ -26,6 +26,7 @@ struct Leg {
     float offset_y;
     float offset_z;
     float rot_z;
+    float P_ori[4][3];
     float P[4][3];
     Adafruit_PWMServoDriver *pwm;
 };
@@ -85,13 +86,13 @@ Adafruit_PWMServoDriver pwm_ll = Adafruit_PWMServoDriver(0x40);
 Adafruit_PWMServoDriver pwm_rl = Adafruit_PWMServoDriver(0x41);
 
 
-Leg L1 = {{0, 1, 2}, true, -63.0, 83.5, -20.0, 45.0, {{-160, 110, -70}, {-160, 130, -55}, {-160, 190, -55}, {-160, 210, -70}}, &pwm_ll};
-Leg L2 = {{4, 5, 6}, false, -81.5, 0.0, -20.0, 0.0, {{-190, -50, -70}, {-190, -30, -55}, {-190, 30, -55}, {-190, 50, -70}}, &pwm_ll};
-Leg L3 = {{8, 9, 10}, true, -63.0, -83.5, -20.0, -45.0, {{-160, -210, -70}, {-160, -190, -55}, {-160, -130, -55}, {-160, -110, -70}}, &pwm_ll};
+Leg L1 = {{0, 1, 2}, true, -63.0, 83.5, -20.0, 45.0, {{-160, 110, -70}, {-160, 130, -55}, {-160, 190, -55}, {-160, 210, -70}}, {{-160, 110, -70}, {-160, 130, -55}, {-160, 190, -55}, {-160, 210, -70}}, &pwm_ll};
+Leg L2 = {{4, 5, 6}, false, -81.5, 0.0, -20.0, 0.0, {{-190, -50, -70}, {-190, -30, -55}, {-190, 30, -55}, {-190, 50, -70}}, {{-190, -50, -70}, {-190, -30, -55}, {-190, 30, -55}, {-190, 50, -70}}, &pwm_ll};
+Leg L3 = {{8, 9, 10}, true, -63.0, -83.5, -20.0, -45.0, {{-160, -210, -70}, {-160, -190, -55}, {-160, -130, -55}, {-160, -110, -70}}, {{-160, -210, -70}, {-160, -190, -55}, {-160, -130, -55}, {-160, -110, -70}},  &pwm_ll};
 
-Leg R1 = {{0, 1, 2}, false, 63.0, 83.5, -20.0, -45.0, {{160, 110, -70}, {160, 130, -55}, {160, 190, -55}, {160, 210, -70}}, &pwm_rl};
-Leg R2 = {{4, 5, 6}, true, 81.5, 0.0, -20.0, 0.0, {{190, -50, -70}, {190, -30, -55}, {190, 30, -55}, {190, 50, -70}}, &pwm_rl};
-Leg R3 = {{8, 9, 10}, false, 63.0, -83.5, -20.0, 45.0, {{160, -210, -70}, {160, -190, -55}, {160, -130, -55}, {160, -110, -70}}, &pwm_rl};
+Leg R1 = {{0, 1, 2}, false, 63.0, 83.5, -20.0, -45.0, {{160, 110, -70}, {160, 130, -55}, {160, 190, -55}, {160, 210, -70}}, {{160, 110, -70}, {160, 130, -55}, {160, 190, -55}, {160, 210, -70}}, &pwm_rl};
+Leg R2 = {{4, 5, 6}, true, 81.5, 0.0, -20.0, 0.0, {{190, -50, -70}, {190, -30, -55}, {190, 30, -55}, {190, 50, -70}}, {{190, -50, -70}, {190, -30, -55}, {190, 30, -55}, {190, 50, -70}}, &pwm_rl};
+Leg R3 = {{8, 9, 10}, false, 63.0, -83.5, -20.0, 45.0, {{160, -210, -70}, {160, -190, -55}, {160, -130, -55}, {160, -110, -70}}, {{160, -210, -70}, {160, -190, -55}, {160, -130, -55}, {160, -110, -70}}, &pwm_rl};
 
 const int SERVOMIN = 102; 
 const int SERVOMAX = 512;
@@ -319,13 +320,25 @@ void setup() {
 }
 
 void loop() {
+
   if (forceLeft > 0.0) {
-    rotateBezier(L1, angleLeft);
-    rotateBezier(L2, angleLeft);
-    rotateBezier(L3, angleLeft);
-    rotateBezier(R1, angleLeft);
-    rotateBezier(R2, angleLeft);
-    rotateBezier(R3, angleLeft);
+    float direction;
+    if (angleLeft >= 315 || angleLeft < 45) {
+      direction = 0.0; // Depan
+  } else if (angleLeft >= 45 && angleLeft < 135) {
+      direction = 90.0; // Kiri
+  } else if (angleLeft >= 135 && angleLeft < 225) {
+      direction = 180.0; // Belakang
+  } else { 
+      direction = 270.0; // Kanan
+  }
+      
+    rotateBezier(L1, direction);
+    rotateBezier(L2, direction);
+    rotateBezier(L3, direction);
+    rotateBezier(R1, direction);
+    rotateBezier(R2, direction);
+    rotateBezier(R3, direction);
 
     y_L1 = L1.state ? L1.P[3][1] : L1.P[0][1]; 
     y_L2 = L2.state ? L2.P[3][1] : L2.P[0][1];
