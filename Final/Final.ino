@@ -102,6 +102,10 @@ const float tibia_len = 104.0;
 
 const double phi = 3.14159265358979323846;
 
+float alpha = 0; 
+float beta = 0;   
+float gamma1 = 0; 
+
 int steps = 30;
 
 float constrainAngle(float val) {
@@ -121,7 +125,41 @@ void rotateZ(float x_in, float y_in, float theta_deg, float &x_out, float &y_out
   y_out = x_in * sin(theta_rad) + y_in * cos(theta_rad);
 }
 
+void bodyKinematic(Leg &leg, float &x, float &y, float &z) {
+  float x_global = x + leg.offset_x;
+  float y_global = y + leg.offset_y;
+  float z_global = z + leg.offset_z;
+
+  float xr = x_global;
+  float yr = y_global;
+  float zr = z_global;
+
+  float gamma_rad = math.radians(gamma1)
+
+  float tempX = xr * cos(gamma_rad) - yr * sin(gamma_rad);
+  float tempY = xr * sin(gamma_rad) + yr * cos(gamma_rad);
+  xr = tempX;
+  yr = tempY;
+
+  tempX = xr * cos(beta) + zr * sin(beta);
+  float tempZ = -xr * sin(beta) + zr * cos(beta);
+  xr = tempX;
+  zr = tempZ;
+
+  tempY = yr * cos(alpha) - zr * sin(alpha);
+  tempZ = yr * sin(alpha) + zr * cos(alpha);
+  yr = tempY;
+  zr = tempZ;
+
+  x = xr - leg.offset_x;
+  y = yr - leg.offset_y;
+  z = zr - leg.offset_z;
+}
+
 void inverseKinematic(Leg &leg, float x, float y, float z, float &sudutCoxa, float &sudutFemur, float &sudutTibia) {
+
+    bodyKinematic(leg ,x, y, z);
+
     sudutCoxa = degrees(atan2(y, x));
     float jarakHorizontal = sqrt(x * x + y * y) - coxa_len;
     float femur_1 = degrees(atan2(z, jarakHorizontal));
