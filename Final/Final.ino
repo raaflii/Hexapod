@@ -254,15 +254,16 @@ void doLeg(Leg &leg, float t, float &y) {
 }
 
 void rotateBezier(Leg &leg, float angle_deg) {
-    float pivot_x = leg.P[0][0];
-    float pivot_y = (leg.P[0][1] + leg.P[3][1]) / 2.0;
+    float pivot_x = leg.P_ori[0][0];
+    float pivot_y = (leg.P_ori[0][1] + leg.P_ori[3][1]) / 2.0;
     float rad = -angle_deg * phi / 180.0;
     float cos_t = cos(rad);
     float sin_t = sin(rad);
 
     for (int i = 0; i < 4; i++) {
-        float x = leg.P[i][0];
-        float y = leg.P[i][1];
+        float x = leg.P_ori[i][0];
+        float y = leg.P_ori[i][1];
+        float z = leg.P_ori[i][2];
         
         float x_trans = x - pivot_x;
         float y_trans = y - pivot_y;
@@ -272,6 +273,7 @@ void rotateBezier(Leg &leg, float angle_deg) {
 
         leg.P[i][0] = x_rot + pivot_x;
         leg.P[i][1] = y_rot + pivot_y;
+        leg.P[i][2] = z;
     }
 }
 
