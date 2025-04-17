@@ -100,6 +100,8 @@ const float coxa_len  = 43.0;
 const float femur_len = 60.0;
 const float tibia_len = 104.0;
 
+const double phi = 3.14159265358979323846;
+
 int steps = 30;
 
 float constrainAngle(float val) {
@@ -215,7 +217,7 @@ void doLeg(Leg &leg, float t, float &y) {
 void rotateBezier(Leg &leg, float angle_deg) {
     float pivot_x = leg.P[0][0];
     float pivot_y = (leg.P[0][1] + leg.P[3][1]) / 2.0;
-    float rad = radians(angle_deg);
+    float rad = -angle_deg * phi / 180.0;
     float cos_t = cos(rad);
     float sin_t = sin(rad);
 
