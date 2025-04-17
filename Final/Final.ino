@@ -19,6 +19,17 @@ float forceRight = 0.0;
 bool leftActive = false;
 bool rightActive = false;
 
+struct Leg {
+    int ch[3];
+    bool state;
+    float offset_x;
+    float offset_y;
+    float offset_z;
+    float rot_z;
+    float P[4][3];
+    Adafruit_PWMServoDriver *pwm;
+};
+
 void handleWebSocketMessage(String msg) {
     StaticJsonDocument<200> doc;
     DeserializationError error = deserializeJson(doc, msg);
@@ -73,16 +84,6 @@ void onWebSocketEvent(AsyncWebSocket *server,
 Adafruit_PWMServoDriver pwm_ll = Adafruit_PWMServoDriver(0x40);
 Adafruit_PWMServoDriver pwm_rl = Adafruit_PWMServoDriver(0x41);
 
-struct Leg {
-    int ch[3];
-    bool state;
-    float offset_x;
-    float offset_y;
-    float offset_z;
-    float rot_z;
-    float P[4][3];
-    Adafruit_PWMServoDriver *pwm;
-};
 
 Leg L1 = {{0, 1, 2}, true, -63.0, 83.5, -20.0, 45.0, {{-160, 110, -70}, {-160, 130, -55}, {-160, 190, -55}, {-160, 210, -70}}, &pwm_ll};
 Leg L2 = {{4, 5, 6}, false, -81.5, 0.0, -20.0, 0.0, {{-190, -50, -70}, {-190, -30, -55}, {-190, 30, -55}, {-190, 50, -70}}, &pwm_ll};
