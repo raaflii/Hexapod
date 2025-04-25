@@ -86,13 +86,13 @@ Adafruit_PWMServoDriver pwm_ll = Adafruit_PWMServoDriver(0x40);
 Adafruit_PWMServoDriver pwm_rl = Adafruit_PWMServoDriver(0x41);
 
 
-Leg L1 = {{0, 1, 2}, true, -63.0, 83.5, -20.0, 45.0, {{-160, 110, -70}, {-160, 130, -55}, {-160, 190, -55}, {-160, 210, -70}}, {{-160, 110, -70}, {-160, 130, -55}, {-160, 190, -55}, {-160, 210, -70}}, &pwm_ll};
-Leg L2 = {{4, 5, 6}, false, -81.5, 0.0, -20.0, 0.0, {{-190, -50, -70}, {-190, -30, -55}, {-190, 30, -55}, {-190, 50, -70}}, {{-190, -50, -70}, {-190, -30, -55}, {-190, 30, -55}, {-190, 50, -70}}, &pwm_ll};
-Leg L3 = {{8, 9, 10}, true, -63.0, -83.5, -20.0, -45.0, {{-160, -210, -70}, {-160, -190, -55}, {-160, -130, -55}, {-160, -110, -70}}, {{-160, -210, -70}, {-160, -190, -55}, {-160, -130, -55}, {-160, -110, -70}},  &pwm_ll};
+Leg L1 = {{0, 1, 2}, true, -63.0, 83.5, -20.0, 45.0, {{-160, 110, -100}, {-160, 130, -80}, {-160, 190, -80}, {-160, 210, -100}}, {{-160, 110, -100}, {-160, 130, -80}, {-160, 190, -80}, {-160, 210, -100}}, &pwm_ll};
+Leg L2 = {{4, 5, 6}, false, -81.5, 0.0, -20.0, 0.0, {{-190, -50, -100}, {-190, -30, -80}, {-190, 30, -80}, {-190, 50, -100}}, {{-190, -50, -100}, {-190, -30, -80}, {-190, 30, -80}, {-190, 50, -100}}, &pwm_ll};
+Leg L3 = {{8, 9, 10}, true, -63.0, -83.5, -20.0, -45.0, {{-160, -210, -100}, {-160, -190, -80}, {-160, -130, -80}, {-160, -110, -100}}, {{-160, -210, -100}, {-160, -190, -80}, {-160, -130, -80}, {-160, -110, -100}},  &pwm_ll};
 
-Leg R1 = {{0, 1, 2}, false, 63.0, 83.5, -20.0, -45.0, {{160, 110, -70}, {160, 130, -55}, {160, 190, -55}, {160, 210, -70}}, {{160, 110, -70}, {160, 130, -55}, {160, 190, -55}, {160, 210, -70}}, &pwm_rl};
-Leg R2 = {{4, 5, 6}, true, 81.5, 0.0, -20.0, 0.0, {{190, -50, -70}, {190, -30, -55}, {190, 30, -55}, {190, 50, -70}}, {{190, -50, -70}, {190, -30, -55}, {190, 30, -55}, {190, 50, -70}}, &pwm_rl};
-Leg R3 = {{8, 9, 10}, false, 63.0, -83.5, -20.0, 45.0, {{160, -210, -70}, {160, -190, -55}, {160, -130, -55}, {160, -110, -70}}, {{160, -210, -70}, {160, -190, -55}, {160, -130, -55}, {160, -110, -70}}, &pwm_rl};
+Leg R1 = {{0, 1, 2}, false, 63.0, 83.5, -20.0, -45.0, {{160, 110, -100}, {160, 130, -80}, {160, 190, -80}, {160, 210, -100}}, {{160, 110, -100}, {160, 130, -80}, {160, 190, -80}, {160, 210, -100}}, &pwm_rl};
+Leg R2 = {{4, 5, 6}, true, 81.5, 0.0, -20.0, 0.0, {{190, -50, -100}, {190, -30, -80}, {190, 30, -80}, {190, 50, -100}}, {{190, -50, -100}, {190, -30, -80}, {190, 30, -80}, {190, 50, -100}}, &pwm_rl};
+Leg R3 = {{8, 9, 10}, false, 63.0, -83.5, -20.0, 45.0, {{160, -210, -100}, {160, -190, -80}, {160, -130, -80}, {160, -110, -100}}, {{160, -210, -100}, {160, -190, -80}, {160, -130, -80}, {160, -110, -100}}, &pwm_rl};
 
 const int SERVOMIN = 102; 
 const int SERVOMAX = 512;
@@ -300,22 +300,22 @@ void setup() {
 
   float servoCoxa, servoFemur, servoTibia;
   
-  kakiKiri(L1, -130.0 - L1.offset_x, 130.0 - L1.offset_y, -70.0 - L1.offset_z, servoCoxa, servoFemur, servoTibia);
+  kakiKiri(L1, -160.0 - L1.offset_x, 130.0 - L1.offset_y, -100.0 - L1.offset_z, servoCoxa, servoFemur, servoTibia);
   pwm_ll.setPWM(L1.ch[0], 0, angleToPulse(servoCoxa));
 
-  kakiKiri(L2, -160.0 - L2.offset_x, 0.0 - L2.offset_y, -70.0 - L2.offset_z, servoCoxa, servoFemur, servoTibia);
+  kakiKiri(L2, -190.0 - L2.offset_x, 0.0 - L2.offset_y, -100.0 - L2.offset_z, servoCoxa, servoFemur, servoTibia);
   pwm_ll.setPWM(L2.ch[0], 0, angleToPulse(servoCoxa));
 
-  kakiKiri(L3, -130.0 - L3.offset_x, -130.0 - L3.offset_y, -70.0 - L3.offset_z, servoCoxa, servoFemur, servoTibia);
+  kakiKiri(L3, -160.0 - L3.offset_x, -130.0 - L3.offset_y, -100.0 - L3.offset_z, servoCoxa, servoFemur, servoTibia);
   pwm_ll.setPWM(L3.ch[0], 0, angleToPulse(servoCoxa));
 
-  kakiKanan(R1, 130.0 - R1.offset_x, 130.0 - R1.offset_y, -70.0 - R1.offset_z, servoCoxa, servoFemur, servoTibia);
+  kakiKanan(R1, 160.0 - R1.offset_x, 130.0 - R1.offset_y, -100.0 - R1.offset_z, servoCoxa, servoFemur, servoTibia);
   pwm_rl.setPWM(R1.ch[0], 0, angleToPulse(servoCoxa));
 
-  kakiKanan(R2, 160.0 - R2.offset_x, 0.0 - R2.offset_y, -70.0 - R2.offset_z, servoCoxa, servoFemur, servoTibia);
+  kakiKanan(R2, 190.0 - R2.offset_x, 0.0 - R2.offset_y, -100.0 - R2.offset_z, servoCoxa, servoFemur, servoTibia);
   pwm_rl.setPWM(R2.ch[0], 0, angleToPulse(servoCoxa));
 
-  kakiKanan(R3, 130.0 - R3.offset_x, -130.0 - R3.offset_y, -70.0 - R3.offset_z, servoCoxa, servoFemur, servoTibia);
+  kakiKanan(R3, 160.0 - R3.offset_x, -130.0 - R3.offset_y, -100.0 - R3.offset_z, servoCoxa, servoFemur, servoTibia);
   pwm_rl.setPWM(R3.ch[0], 0, angleToPulse(servoCoxa));
 
   delay(3000);
