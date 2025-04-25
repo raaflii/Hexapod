@@ -135,7 +135,7 @@ void bodyKinematic(Leg &leg, float &x, float &y, float &z) {
   float yr = y_global;
   float zr = z_global;
 
-  float gamma_rad = math.radians(gamma1)
+  float gamma_rad = radians(gamma1);
 
   float tempX = xr * cos(gamma_rad) - yr * sin(gamma_rad);
   float tempY = xr * sin(gamma_rad) + yr * cos(gamma_rad);
