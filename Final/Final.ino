@@ -300,22 +300,22 @@ void setup() {
 
   float servoCoxa, servoFemur, servoTibia;
   
-  kakiKiri(L1, -160.0 - L1.offset_x, 130.0 - L1.offset_y, -100.0 - L1.offset_z, servoCoxa, servoFemur, servoTibia);
+  kakiKiri(L1, -150.0 - L1.offset_x, 130.0 - L1.offset_y, -100.0 - L1.offset_z, servoCoxa, servoFemur, servoTibia);
   pwm_ll.setPWM(L1.ch[0], 0, angleToPulse(servoCoxa));
 
-  kakiKiri(L2, -190.0 - L2.offset_x, 0.0 - L2.offset_y, -100.0 - L2.offset_z, servoCoxa, servoFemur, servoTibia);
+  kakiKiri(L2, -180.0 - L2.offset_x, 0.0 - L2.offset_y, -100.0 - L2.offset_z, servoCoxa, servoFemur, servoTibia);
   pwm_ll.setPWM(L2.ch[0], 0, angleToPulse(servoCoxa));
 
-  kakiKiri(L3, -160.0 - L3.offset_x, -130.0 - L3.offset_y, -100.0 - L3.offset_z, servoCoxa, servoFemur, servoTibia);
+  kakiKiri(L3, -150.0 - L3.offset_x, -130.0 - L3.offset_y, -100.0 - L3.offset_z, servoCoxa, servoFemur, servoTibia);
   pwm_ll.setPWM(L3.ch[0], 0, angleToPulse(servoCoxa));
 
-  kakiKanan(R1, 160.0 - R1.offset_x, 130.0 - R1.offset_y, -100.0 - R1.offset_z, servoCoxa, servoFemur, servoTibia);
+  kakiKanan(R1, 150.0 - R1.offset_x, 130.0 - R1.offset_y, -100.0 - R1.offset_z, servoCoxa, servoFemur, servoTibia);
   pwm_rl.setPWM(R1.ch[0], 0, angleToPulse(servoCoxa));
 
-  kakiKanan(R2, 190.0 - R2.offset_x, 0.0 - R2.offset_y, -100.0 - R2.offset_z, servoCoxa, servoFemur, servoTibia);
+  kakiKanan(R2, 180.0 - R2.offset_x, 0.0 - R2.offset_y, -100.0 - R2.offset_z, servoCoxa, servoFemur, servoTibia);
   pwm_rl.setPWM(R2.ch[0], 0, angleToPulse(servoCoxa));
 
-  kakiKanan(R3, 160.0 - R3.offset_x, -130.0 - R3.offset_y, -100.0 - R3.offset_z, servoCoxa, servoFemur, servoTibia);
+  kakiKanan(R3, 150.0 - R3.offset_x, -130.0 - R3.offset_y, -100.0 - R3.offset_z, servoCoxa, servoFemur, servoTibia);
   pwm_rl.setPWM(R3.ch[0], 0, angleToPulse(servoCoxa));
 
   delay(3000);
